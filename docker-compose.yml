@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  payments-service:
+    build: .
+    container_name: univalleshop-payments-service
+    ports:
+      - "3003:3003"
+    environment:
+      - MONGODB_URI=mongodb://mongo-payments:27017/payments-service
+    depends_on:
+      - mongo-payments
+    restart: on-failure
+
+  mongo-payments:
+    image: mongo:7
+    container_name: univalleshop-mongo-payments
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-payments-data:/data/db
+
+volumes:
+  mongo-payments-data:
